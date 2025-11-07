@@ -23,9 +23,14 @@ export default {
             const { model, conversation_id: convId, messages, stream } = request.body;
             const assistantId = /^[a-z0-9]{24,}$/.test(model) ? model : undefined
             if (stream) {
-                const stream = await chat.createCompletionStream(messages, token, assistantId, convId);
-                return new Response(stream, {
-                    type: "text/event-stream"
+                const s = await chat.createCompletionStream(messages, token, assistantId, convId);
+                return new Response(s, {
+                    type: "text/event-stream",
+                    headers: {
+                        "Cache-Control": "no-cache, no-transform",
+                        "Connection": "keep-alive",
+                        "X-Accel-Buffering": "no"
+                    }
                 });
             }
             else

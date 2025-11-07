@@ -9,6 +9,42 @@ import { format as dateFormat } from 'date-fns';
 import config from './config.ts';
 import util from './util.ts';
 
+
+// 全局日志文本清洗：移除/掩码可能出现的 base64 和 data URI，防止日志泄露/爆炸
+function sanitizeLogString(input: string): string {
+  try {
+    if (!input || typeof input !== "string") return input as any;
+    let s = input;
+
+    // 处理 data:*;base64, 段落（逐字符向后扫描，直到遇到非 base64 字符）
+    const prefix = "data:";
+    let idx = s.indexOf(prefix);
+    while (idx !== -1) {
+      const semi = s.indexOf(";base64,", idx);
+      if (semi === -1) break;
+      let end = semi + ";base64,".length;
+      const start = idx;
+      let count = 0;
+      while (end < s.length && /[A-Za-z0-9+/=]/.test(s[end])) { end++; count++; }
+      const replacement = `data:...;base64,[OMITTED,len=${count}]`;
+      s = s.slice(0, start) + replacement + s.slice(end);
+      idx = s.indexOf(prefix, start + replacement.length);
+    }
+
+    // 替换过长的 base64-like 连续串
+    s = s.replace(/([A-Za-z0-9+/=]{256,})/g, (m) => `[[OMITTED_BASE64 len=${m.length}]]`);
+
+    // 防止超长日志刷屏：硬性截断
+    if (s.length > 8000) {
+      s = s.slice(0, 8000) + `...[[TRUNCATED len=${s.length}]]`;
+    }
+
+    return s;
+  } catch {
+    return input as any;
+  }
+}
+
 const isVercelEnv = process.env.VERCEL;
 
 class LogWriter {
@@ -62,7 +98,8 @@ class LogText {
 
     constructor(level, ...params) {
         this.level = level;
-        this.text = _util.format.apply(null, params);
+        const raw = _util.format.apply(null, params);
+        this.text = sanitizeLogString(raw);
         this.source = this.#getStackTopCodeInfo();
     }
 
